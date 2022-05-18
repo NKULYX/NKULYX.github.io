@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="TTATT">
+
+
+
+
+
+<title>CUDA | TTATT</title>
+
+
+
+    <link rel="icon" href="/image.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>　
+    <script>
+    !
+    function() {
+        function n(n, e, t) {
+            return n.getAttribute(e) || t
+        }
+        function e(n) {
+            return document.getElementsByTagName(n)
+        }
+        function t() {
+            var t = e("script"),
+            o = t.length,
+            i = t[o - 1];
+            return {
+                l: o,
+                z: n(i, "zIndex", -1),
+                o: n(i, "opacity", .5),
+                c: n(i, "color", "0,0,0"),
+                n: n(i, "count", 99)
+            }
+        }
+        function o() {
+            a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        }
+        function i() {
+            r.clearRect(0, 0, a, c);
+            var n, e, t, o, m, l;
+            s.forEach(function(i, x) {
+                for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+                null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+            }),
+            x(i)
+        }
+        var a, c, u, m = document.createElement("canvas"),
+        d = t(),
+        l = "c_n" + d.l,
+        r = m.getContext("2d"),
+        x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(n) {
+            window.setTimeout(n, 1e3 / 45)
+        },
+        w = Math.random,
+        y = {
+            x: null,
+            y: null,
+            max: 2e4
+        };
+        m.id = l,
+        m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+        e("body")[0].appendChild(m),
+        o(),
+        window.onresize = o,
+        window.onmousemove = function(n) {
+            n = n || window.event,
+            y.x = n.clientX,
+            y.y = n.clientY
+        },
+        window.onmouseout = function() {
+            y.x = null,
+            y.y = null
+        };
+        for (var s = [], f = 0; d.n > f; f++) {
+            var h = w() * a,
+            g = w() * c,
+            v = 2 * w() - 1,
+            p = 2 * w() - 1;
+            s.push({
+                x: h,
+                y: g,
+                xa: v,
+                ya: p,
+                max: 6e3
+            })
+        }
+        u = s.concat([y]),
+        setTimeout(function() {
+            i()
+        },
+        100)
+    } ();
+    </script>
+
+    
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">TTATT&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/pages/test.html">MyDemo</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://pdai.tech/">Reference</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">TTATT&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/pages/test.html">MyDemo</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://pdai.tech/">Reference</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CUDA</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">TTATT</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 18, 2022&nbsp;&nbsp;21:49:20</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="CUDA安装以及开发环境配置"><a href="#CUDA安装以及开发环境配置" class="headerlink" title="CUDA安装以及开发环境配置"></a>CUDA安装以及开发环境配置</h1><p>最近要使用CUDA进行C++和DL的学习，主要是用到cuda对C++代码进行优化加速，和pytorch通过cuda使用GPU进行加速。配环境的过程中遇到了各种奇奇怪怪的问题，于是乎决定写一篇Blog来详细描述一下开发环境的配置过程。</p>
+<h2 id="硬件支持"><a href="#硬件支持" class="headerlink" title="硬件支持"></a>硬件支持</h2><p>首先要确定自己的台式机/笔记本是否支持CUDA，需要有NVIDIA的独显支持。写Blog时，时间是2022年5月17日，我自己本机的硬件是 NVIDIA-RTX3060-Laptop。之后在参考本篇文章时，要注意自己的硬件条件和当时的时间来确定后续环境的版本。</p>
+<p>首先要查看自己本机NVIDIA显卡所支持的驱动版本，以NVIDIA-RTX3060-Laptop为例。</p>
+<p>在桌面右键打开 <strong>NVIDIA控制面板</strong> </p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517101532681.png" alt="image-20220517101532681" style="zoom: 50%;" />
+
+<p>然后可以看到NVIDIA控制面板的详细内容，打开左下角的系统信息，查看支持的驱动版本。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517155642915.png" alt="image-20220517155642915" style="zoom: 33%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517155711427.png" alt="image-20220517155711427" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517155734442.png" alt="image-20220517155734442" style="zoom:50%;" />
+
+<p>这里，NIVDIA-RTX3060-Laptop支持的最高驱动版本为472.56，CUDA版本为11.4。</p>
+<p>还可以采用命令行的方式来查看驱动版本，打开命令行，输入</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia<span class="literal">-smi</span></span><br></pre></td></tr></table></figure>
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517155952416.png" alt="image-20220517155952416" style="zoom:50%;" />
+
+<h2 id="CUDA-toolkit"><a href="#CUDA-toolkit" class="headerlink" title="CUDA toolkit"></a>CUDA toolkit</h2><h3 id="CUDA-toolkit-下载"><a href="#CUDA-toolkit-下载" class="headerlink" title="CUDA toolkit 下载"></a>CUDA toolkit 下载</h3><p>访问以下网站来查看和自己的驱动版本相匹配的CUDA toolkit版本</p>
+<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">CUDA toolkit版本查看</a></p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517160436428.png" alt="image-20220517160436428" style="zoom:50%;" />
+
+<p>这里我选择的是 CUDA 11.4.0 GA，当然只要选择自己驱动所能支持的版本均可。</p>
+<p>接下来访问以下网址下载对应的CUDA toolkit。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">CUDA toolkit下载</a></p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517160718648.png" alt="image-20220517160718648" style="zoom:50%;" />
+
+<p>选择自己所需要的操作系统以及操作系统的版本还有下载的方式，这里以Windows 11 为例，选择的是<code>Windows</code>-&gt;<code>x86_64</code>-&gt;<code>10</code>-&gt;<code>exe[local]</code>，最后一个选项的意思是直接本地安装还是选择联网安装。总体上来说下载速度还行，直接选择<code>exe[local]</code>就OK了。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517160926634.png" alt="image-20220517160926634" style="zoom:50%;" />
+
+<h3 id="CUDA-toolkit-安装"><a href="#CUDA-toolkit-安装" class="headerlink" title="CUDA toolkit 安装"></a>CUDA toolkit 安装</h3><img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161325435.png" alt="image-20220517161325435" style="zoom:50%;" />
+
+<p>直接双击运行安装程序即可，在这里他会弹出一个提示框，意思是选择一个临时的解压目录，这个目录会在安装完成之后删除，所以如果你C盘空间足够的话，可以不用修改这个目录，直接采用默认选项即可。毕竟安装完成之后会被删除，没什么太大影响。</p>
+<img src="https://img-blog.csdnimg.cn/20181115145139807.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzIzNjE5NDA5,size_16,color_FFFFFF,t_70" alt="img" style="zoom:50%;" />
+
+<p>首先他会检查系统的兼容性，由于可能安装的不是与自己对应驱动的最新版本，可能会有相关的提示信息，可以暂时忽略，进行下一步。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161454189.png" alt="image-20220517161454189" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161508308.png" alt="image-20220517161508308" style="zoom:50%;" />
+
+<p>在这里推荐使用自定义的安装方式</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161523082.png" alt="image-20220517161523082" style="zoom:50%;" />
+
+<p>接下来要注意了，如果本机之前没有安装过Microsoft Visual Studio的话，可以考虑不勾选Visual Studio Integration选项。但是要注意，如果想要进行C++的CUDA开发的话，还是建议安装Microsoft Visual Studio，目前其与CUDA的兼容性应该是最好的，而且在使用<code>nvcc</code>进行编译的时候，如果没有安装过Microsoft Visual Studio可能会出现缺少相关组件的问题。这里还需要注意的是，**<u>Microsoft Visual Studio的版本一定要在2017-2019之间！</u>**</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161849455.png" alt="image-20220517161849455" style="zoom:50%;" />
+
+<p>接下来安装引导程序会让你指定安装的位置，这里是真正要安装的路径，一般来说建议直接默认，但是由于笔者C盘确实有点捉襟见肘，所以安装到了D盘。**<u>这里要注意</u><strong>，</strong>千万不要和之前临时解压的目录一致 ！！！**否则可能在安装完成之后被删掉。具体会有什么结果笔者也不知道，毕竟没敢尝试。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517162323850.png" alt="image-20220517162323850" style="zoom:50%;" />
+
+<p>接下来就是无脑下一步直到完成安装即可。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161925838.png" alt="image-20220517161925838" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161931735.png" alt="image-20220517161931735" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517161939901.png" alt="image-20220517161939901" style="zoom:50%;" />
+
+<h3 id="CUDA-toolkit-环境配置"><a href="#CUDA-toolkit-环境配置" class="headerlink" title="CUDA toolkit 环境配置"></a>CUDA toolkit 环境配置</h3><p>在安装完成之后，可以打开系统的环境变量来检查<code>CUDA</code>是否已经加入到环境变量中了，默认情况下是自动添加到环境变量中的。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517162028552.png" alt="image-20220517162028552" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517165259875.png" alt="image-20220517165259875" style="zoom:50%;" />
+
+<p>如果这里并没有被自动添加到环境变量，可以手动创建，并根据你之前选定的安装目录来确定相应的环境变量值。笔者的安装目录为 <code>D:\NVIDIAGPU\CUDA\v11.4</code>，可以按照自己的安装路径进行相应的调整。</p>
+<h3 id="CUDA-toolkit-验证"><a href="#CUDA-toolkit-验证" class="headerlink" title="CUDA toolkit 验证"></a>CUDA toolkit 验证</h3><p>以上步骤完成之后，CUDA toolkit基本就已经安装完成了，可以打开命令行，忐忑地验证一下是否真正安装成功。分别输入以下命令来验证<code>nvcc</code>的版本。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvcc <span class="literal">-V</span></span><br><span class="line">nvcc <span class="literal">--version</span></span><br></pre></td></tr></table></figure>
+
+<p>得到如下结果，就恭喜你完成了第一步CUDA toolkit的安装和环境配置。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517163005164.png" alt="image-20220517163005164" style="zoom:50%;" />
+
+<h2 id="cuDNN"><a href="#cuDNN" class="headerlink" title="cuDNN"></a>cuDNN</h2><p>cuDNN可以认为是CUDA对于深度学习的一个加速库，如果想要用python做深度学习相关的内容的话，这个应该是必不可少的。用NVIDIA官方的解释是</p>
+<blockquote>
+<p>NVIDIA cuDNN is a GPU-accelerated library of primitives for deep neural networks.</p>
+</blockquote>
+<h3 id="cuDNN-下载"><a href="#cuDNN-下载" class="headerlink" title="cuDNN 下载"></a>cuDNN 下载</h3><p>首先访问以下网址来选择和之前安装的CUDA</p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN版本查看</a></p>
+<p>笔者在此处选择的是 <code>cuDNN v8.2.4</code> 支持的是 <code>CUDA 11.4</code>，选择的是<code>Windows x64</code>版本。可以根据自己的<code>CUDA</code>版本和操作系统来选择对应的 <code>cuDNN</code>版本，**<u>这里一定要能够对应上！</u>**</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517164252663.png" alt="image-20220517164252663" style="zoom:50%;" />
+
+<h3 id="cuDNN-配置"><a href="#cuDNN-配置" class="headerlink" title="cuDNN 配置"></a>cuDNN 配置</h3><p>下载完成后会得到一个压缩包，将压缩包解压出来。</p>
+<p><img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517164709130.png" alt="image-20220517164709130"></p>
+<p>解压后的文件夹会得到如下内容，要注意，这里需要把这三个目录下的文件<strong>复制</strong>到，注意是复制到之前<code>CUDA</code>安装目录中对应的目录下。这就相当于是给原本的<code>CUDA</code>做了一个扩展，打了一个补丁，让他变得更加强大！</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517164814124.png" alt="image-20220517164814124" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517165028642.png" alt="image-20220517165028642" style="zoom:50%;" />
+
+<h3 id="cuDNN-验证"><a href="#cuDNN-验证" class="headerlink" title="cuDNN 验证"></a>cuDNN 验证</h3><p>OK以上步骤完成之后，cuDNN也配置完成了，接下来我们验证一下是否真正的配置成功了。切换到安装目录下的<code>.\extras\demo_suite</code>目录下，笔者的完整路径为<code>D:\NVIDIAGPU\CUDA\v11.4\extras\demo_suite</code>，可以根据自己的实际情况进行调整。</p>
+<p>在该目录下打开命令行，分别执行<code>bandwidthTest.exe</code>和<code>deviceQuery.exe</code>，如果顺利得到以下结果，就说明cuDNN的配置成功完成了。注意一定是要得到<code>RESULT = PASS</code>才算成功</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517165648846.png" alt="image-20220517165648846" style="zoom:50%;" />
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517165754305.png" alt="image-20220517165754305" style="zoom:50%;" />
+
+<p>OK截止到目前为止，<code>CUDA</code>的下载安装和配置都已经完成了接下来就是针对不同的开发需求的环境配置了，笔者只配置了<code>pytorch</code>和<code>C++</code>的开发环境。</p>
+<hr>
+<h2 id="pytorch使用CUDA加速"><a href="#pytorch使用CUDA加速" class="headerlink" title="pytorch使用CUDA加速"></a><code>pytorch</code>使用CUDA加速</h2><h3 id="pytorch准备"><a href="#pytorch准备" class="headerlink" title="pytorch准备"></a><code>pytorch</code>准备</h3><p>首先你需要有一个<code>python</code>，在这里笔者不多赘述如何安装和配置python开发环境，相关的文章很多<a target="_blank" rel="noopener" href="https://blog.csdn.net/CatStarXcode/article/details/79715530?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165277841616782391844936%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=165277841616782391844936&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-11-79715530-null-null.142%5Ev10%5Epc_search_result_control_group,157%5Ev4%5Econtrol&utm_term=python%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE&spm=1018.2226.3001.4187">python安装配置</a>，应该是能够顺利完成的，笔者的<code>python</code>版本为<code>3.7.2</code></p>
+<p>为了能够使用GPU，我们需要下载支持GPU版本的<code>pytorch</code>，这里可以从<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">pytorch</a>官网进行下载，选择和自己的操作系统，安装途径以及<code>CUDA</code>版本匹配的<code>pytorch</code>版本。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517170431448.png" alt="image-20220517170431448" style="zoom:50%;" />
+
+<p>然后就在本机通过<code>pip</code>安装即可，这里可考虑采用国内的镜像源进行加速，如何使用国内镜像源的方法也有很多文章可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_21591675/article/details/82770360?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165277838216782395360633%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165277838216782395360633&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-2-82770360-null-null.142%5Ev10%5Epc_search_result_control_group,157%5Ev4%5Econtrol&utm_term=pip%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90&spm=1018.2226.3001.4187">pip使用国内镜像源</a>，在此不再赘述。</p>
+<h3 id="pytorch验证"><a href="#pytorch验证" class="headerlink" title="pytorch验证"></a><code>pytorch</code>验证</h3><p>在安装完成后，可以打开<code>python</code>尝试验证一下是否能够使用GPU。如果正常配置了<code>python</code>的环境变量，可以直接打开命令行输入<code>python</code>，笔者这里由于使用了虚拟环境，因此操作稍微有所不同。但是进入<code>python</code>交互终端之后的操作是一致的，可以输入以下命令来验证。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.__version__</span><br><span class="line"><span class="comment">#cuda是否可用</span></span><br><span class="line">torch.cuda.is_available()</span><br><span class="line"><span class="comment">#返回GPU的数量</span></span><br><span class="line">torch.cuda.device_count()</span><br><span class="line"><span class="comment">#返回gpu名字，设备索引默认从0开始</span></span><br><span class="line">torch.cuda.get_device_name(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>得到结果如下，那么恭喜你，能够愉快的让你的<code>pytorch</code>使用GPU加速了！</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517171242966.png" alt="image-20220517171242966" style="zoom:50%;" />
+
+<h2 id="配置CUDA开发环境"><a href="#配置CUDA开发环境" class="headerlink" title="配置CUDA开发环境"></a>配置<code>CUDA</code>开发环境</h2><h3 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h3><p>在使用<code>nvcc</code>对于<code>.cu</code>代码进行编译的时候，需要Visual Studio下MSVC中<code>cl.exe</code>支持，因此为了能够使用<code>nvcc</code>对代码进行编译，需要安装Visual Studio 2019（推荐）。具体的安装过程同样有很多文章可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43058685/article/details/96837923?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165279022516782390584271%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165279022516782390584271&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-96837923-null-null.142%5Ev10%5Epc_search_result_control_group,157%5Ev4%5Econtrol&utm_term=Visual+Studio+2019&spm=1018.2226.3001.4187">Visual Studio 2019安装</a>，在此不再赘述。这里需要注意的是，安装的时候需要勾选以下组件。</p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517202514308.png" alt="image-20220517202514308" style="zoom:50%;" />
+
+<p>在安装完成后，需要将<code>cl.exe</code>所在的目录添加到环境变量中去，一般来说这个目录藏得比较深。以笔者这里为例，在安装目录的<code>VC</code>子目录下可以找到。</p>
+<p><code>D:\Microsoft Visual Studio\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64</code></p>
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517202726956.png" alt="image-20220517202726956" style="zoom:50%;" />
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>写一个简单的cuda程序对于之前全部的环境搭建进行检验</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;device_launch_parameters.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">vec_add</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i = blockIdx.x;</span><br><span class="line">    a[i] += b[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> N = <span class="number">100</span>;</span><br><span class="line">    <span class="comment">// ---- allocate the memory ---- //</span></span><br><span class="line">    <span class="type">int</span> *a, *b;</span><br><span class="line">    <span class="built_in">cudaMallocManaged</span>(&amp;a, N*<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">    <span class="built_in">cudaMallocManaged</span>(&amp;b, N*<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">    <span class="comment">// ---- initialize a,b ---- //</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = i;</span><br><span class="line">        b[i] = <span class="number">2</span>*i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ---- add b to a ---- //</span></span><br><span class="line">    vec_add&lt;&lt;&lt;N,<span class="number">1</span>&gt;&gt;&gt;(a,b);</span><br><span class="line">    <span class="built_in">cudaDeviceSynchronize</span>();</span><br><span class="line">    <span class="comment">// ---- display a ---- //</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; a[i] &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在代码所在目录下打开命令行，输入以下编译命令，获得可执行文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc test.cu <span class="literal">-o</span> test</span><br></pre></td></tr></table></figure>
+
+<img src="https://image-lyx-1308966280.cos.ap-beijing.myqcloud.com/img/image-20220517203240441.png" alt="image-20220517203240441" style="zoom:50%;" />
+
+<p>到此为止，我们就可以正常cuda进行开发了！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>TTATT</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://nkulyx.github.io/2022/05/18/CUDA/">https://nkulyx.github.io/2022/05/18/CUDA/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/03/17/hello-world/">Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© TTATT | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
